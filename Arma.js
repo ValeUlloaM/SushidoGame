@@ -4,12 +4,12 @@ class Arma {
         this.balas = [];
     }
 
-    mostrar() {
+    mostrar(imgBalaWasabi, imgBalaArroz) {
 
         this.validarAlcanceBala();
         for (let index = 0; index < this.balas.length; index++) {
             const bala = this.balas[index];
-            bala.mostrar();
+            bala.mostrar(imgBalaWasabi, imgBalaArroz);
         }
     }
 
