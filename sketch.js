@@ -190,6 +190,7 @@ function draw() {
       break;
 
     case 3: //Acertijo #1
+    background(0);
     break;
 
     case 4: //Cocina
