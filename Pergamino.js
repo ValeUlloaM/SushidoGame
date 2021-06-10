@@ -13,9 +13,6 @@ class Pergamino{
             this.pergaminoX = (this.pergaminoCol * 100) + 50; 
             this.pergaminoY = (this.pergaminoFil * 100) + 50;
             image(this.pergaminoImagen, this.pergaminoX, this.pergaminoY);
-            //fill(255,0,0);
-            //console.log(this.pergaminoX, this.pergaminoY);
-            //ellipse(this.pergaminoX, this.pergaminoY);
         }
 
         getPergaminoCol(){

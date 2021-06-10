@@ -20,9 +20,9 @@ class Personaje {
 
     }
 
-    pintarVistas() {
+    pintarVistas(imgBalaWasabi, imgBalaArroz) {
         imageMode(CENTER);
-        this.arma.mostrar();
+        this.arma.mostrar(imgBalaWasabi, imgBalaArroz);
         
         switch (this.orientacion) {
             

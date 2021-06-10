@@ -19,6 +19,15 @@ let premiosArrozNivel3 = [];
 let premiosSalmonNivel3 = [];
 let premiosArrozNivel4 = [];
 let premiosSalmonNivel4 = [];
+//Variable de pergamino
+let pergamino;
+//Variable de pista
+let pistaRevelada = false;
+let pista;
+//Variables acertijos
+let acertijo1;
+let acertijo2;
+let acertijo3;
 
 //Imagenes
 //Fondos
@@ -47,7 +56,14 @@ let imgInventario;
 //Balas
 let imgBalaWasabi;
 let imgBalaArroz;
-
+//Pistas
+let imgPista;
+//Pergamino
+let imgPergamino;
+//Fondos acertijos
+let imgFondoAcertijo1;
+let imgFondoAcertijo2;
+let imgFondoAcertijo3;
 
 function preload() {
   //Imagenes de fondo
@@ -76,12 +92,18 @@ function preload() {
   //Balas
   imgBalaWasabi = loadImage("data/BalaWasabi.png");
   imgBalaArroz = loadImage("data/BalaArroz.png");
-
+  //Pistas
+  imgPista = loadImage("data/Pista.png");
+  //Pergamino
+  imgPergamino = loadImage("data/Pergamino.png"); 
+  //Acertijos
+  imgFondoAcertijo1 = loadImage("data/FondoAcertijo1.png");
+  imgFondoAcertijo2 = loadImage("data/FondoAcertijo2.png");
+  imgFondoAcertijo3 = loadImage("data/FondoAcertijo3.png");
 }
-
 function setup() {
   createCanvas(1200, 700);
-  pantalla = 2;
+  pantalla = 7;
   //Plano
   plano = new Mapa();
   plano.crearCasillas();
@@ -137,6 +159,14 @@ function setup() {
   premiosSalmonNivel4.push(new Premio(2, 2, imgPremioSalmon, 1)); //Salmon
   premiosSalmonNivel4.push(new Premio(3, 4, imgPremioSalmon, 1)); //Salmon
   premiosSalmonNivel4.push(new Premio(5, 6, imgPremioSalmon, 1)); //Salmon
+  //Pergamino
+  pergamino = new Pergamino(8, 2, imgPergamino);
+  //Pista
+  pista = new Pista(imgPista);
+  //Acertijos
+  acertijo1 = new Acertijo(261, 330, 71);
+  acertijo2 = new Acertijo(906, 456, 58);
+  acertijo3 = new Acertijo(337, 402, 58);
 
 }
 
@@ -166,7 +196,7 @@ function draw() {
       plano.personalizarSalidas(0);
       pasarAcertijo(0);
       //Metodos del personaje
-      personaje.pintarVistas();
+      personaje.pintarVistas(imgBalaWasabi, imgBalaArroz);
       validarImpactoBala(enemigosCuchillo, personaje.getArma().getBalas());
       //Metodos de los enemigos
       for (let i = 0; i < enemigosCuchillo.length; i++) {
@@ -186,10 +216,21 @@ function draw() {
       recolectarPremios(premiosArrozNivel1, personaje);
       recolectarPremios(premiosSalmonNivel1, personaje);
 
+      //Metodos pergaminos y pistas
+      pergamino.pintar();
+      validarContactoPergamino ();
+      if(pistaRevelada === true){
+        pista.pintar();
+      }
 
       break;
 
     case 3: //Acertijo #1
+    imageMode(CORNER);
+    image(imgFondoAcertijo1, 0, 0);
+
+    //Metodo Acertijo
+    acertijo1.pintar();
     break;
 
     case 4: //Cocina
@@ -197,10 +238,10 @@ function draw() {
     image(imgFondo4, 0, 0);
     //Metodos del mapa
     plano.personalizarObstaculos(1);
-    plano.personalizarSalidas(1)
-    pasarAcertijo(1)
+    plano.personalizarSalidas(1);
+    pasarAcertijo(1);
     //Metodos del personaje
-    personaje.pintarVistas();
+    personaje.pintarVistas(imgBalaWasabi, imgBalaArroz);
     validarImpactoBala(enemigosAlga, personaje.getArma().getBalas());
 
     //Metodos de los enemigos
@@ -224,6 +265,11 @@ function draw() {
     break;
     
     case 5: //Acertijo #2
+    imageMode(CORNER);
+    image(imgFondoAcertijo2, 0, 0);
+
+    //Metodo Acertijo
+    acertijo2.pintar();
       break;
 
     case 6: //Comedor
@@ -234,7 +280,7 @@ function draw() {
     plano.personalizarSalidas(2);
     pasarAcertijo(2);
     //Metodos del personaje
-    personaje.pintarVistas();
+    personaje.pintarVistas(imgBalaWasabi, imgBalaArroz);
     //Enemigos
     for (let i = 0; i < enemigosSoya.length; i++) {
       enemigosSoya[i].pintar();
@@ -257,15 +303,22 @@ function draw() {
       
 
      break;
+
     case 7: //Acertijo #3
+    imageMode(CORNER);
+    image(imgFondoAcertijo3, 0, 0);
+
+    //Metodo Acertijo
+    acertijo3.pintar();
       break;
+
     case 8: //Barco
     imageMode(CORNER);
     image(imgFondo6, 0, 0)
     plano.personalizarObstaculos(3);
     plano.personalizarSalidas(3)
     //Metodos personajes
-    personaje.pintarVistas();
+    personaje.pintarVistas(imgBalaWasabi, imgBalaArroz);
     validarImpactoBala(enemigosPalillos, personaje.getArma().getBalas());
     //Enemigos
     for (let i = 0; i < enemigosPalillos.length; i++) {
@@ -302,13 +355,13 @@ function draw() {
 
 //Metodo para visualizar las vidas del personaje
 function visualizarVidasEnPantalla() {
-  if (pantalla > 1 && pantalla < 6) {
+  if (pantalla === 2 || pantalla === 4 || pantalla === 6 || pantalla === 8 ) {
     personaje.mostrarVidas(imgCorazon);
   }
 }
 
 function visualizarInventario() {
-  if (pantalla > 1 && pantalla < 6) {
+  if (pantalla === 2 || pantalla === 4 || pantalla === 6 || pantalla === 8) {
     inventario.pintar();
   }
 }
@@ -330,7 +383,7 @@ function validarImpacto(arregloEnemigos, personaje) {
       contadorVida = 60;
 
       if (personaje.getVida() === 0) {
-        pantalla = 6;
+        pantalla = 10;
       }
     }
   }
@@ -366,6 +419,18 @@ function validarImpactoBala(arregloEnemigos, arregloBalas) {
   }
 }
 
+function validarContactoPergamino (){
+  let personajeCol = personaje.getPcol();
+    let personajeFil = personaje.getPfil();
+    let pergaminoColumna = pergamino.getPergaminoCol();
+    let pergaminoFila = pergamino.getPergaminoFil();
+  if(pergaminoColumna === personajeCol && pergaminoFila === personajeFil){
+    pistaRevelada = true;
+  } else{
+    pistaRevelada = false;
+  }
+}
+
 //Metodo de recoleccion de premios y recuperacion de vidas:
 function recolectarPremios(arregloPremios, personaje) {
   for (let index = 0; index < arregloPremios.length; index++) {
@@ -394,17 +459,17 @@ function pasarAcertijo(nivel) {
   switch (nivel) {
 
     case 0:
-      if (plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) {
+      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) && pantalla === 2) {
         pantalla = 3
       }
       break;
     case 1:
-      if (plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) {
+      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) && pantalla === 4)  {
         pantalla = 5
       }
     break;
     case 2:
-      if (plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) {
+      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) && pantalla === 6) {
         pantalla = 7
       }
     break;
@@ -467,5 +532,38 @@ function keyPressed() {
 
 
   }
+}
+
+function mousePressed(){
+  
+  //Botones de acertijos
+
+  //Acertijo 1
+  if(acertijo1.validarClic(mouseX, mouseY)){
+    pantalla = 4;
+  }
+
+  if(pantalla === 4){
+    acertijo1.setRevelar(false);
+  }
+
+  //Acertijo 2
+  if(acertijo2.validarClic(mouseX, mouseY)){
+    pantalla = 6;
+  }
+
+  if(pantalla === 6){
+    acertijo2.setRevelar(false);
+  }
+
+  //Acertijo 3
+  if(acertijo3.validarClic(mouseX, mouseY)){
+    pantalla = 8;
+  }
+
+  if(pantalla === 8){
+    acertijo3.setRevelar(false);
+  }
+  
 
 }

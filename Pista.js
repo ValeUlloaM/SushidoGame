@@ -8,6 +8,4 @@ class Pista{
        imageMode(CENTER);
        image(this.pistaImagen, 600, 350);
    }
-
-
 }
