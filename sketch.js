@@ -190,7 +190,7 @@ function draw() {
 
     case 2: //Refrigerador
       imageMode(CORNER);
-      image(imgFondo3, 0, 0);
+     image(imgFondo3, 0, 0);
       //Metodos del mapa
       plano.personalizarObstaculos(0);
       plano.personalizarSalidas(0);
@@ -236,7 +236,7 @@ function draw() {
 
     case 4: //Cocina
     imageMode(CORNER);
-    image(imgFondo4, 0, 0);
+   image(imgFondo4, 0, 0);
     //Metodos del mapa
     plano.personalizarObstaculos(1);
     plano.personalizarSalidas(1);
