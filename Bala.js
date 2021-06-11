@@ -74,8 +74,6 @@ class Bala {
                         
 
                     }
-
-                    console.log(this.limite, this.balaX);
                 } else {
                     this.balaX += this.velocidadBala2;
                     image(imgBalaArroz,this.balaX, this.balaY);

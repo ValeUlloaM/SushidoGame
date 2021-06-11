@@ -46,6 +46,12 @@ class Mapa {
 
                         break;
                     case 1:
+
+                        for (let fil = 0; fil < 7; fil++) {
+                            for (let col = 0; col < 12; col++) {
+                                this.casilla[fil][col] = 0;
+                            }
+                        }
                         //Margenes
                         this.casilla[6][col] = 1;
                         this.casilla[fil][0] = 1;
@@ -56,6 +62,12 @@ class Mapa {
                         
                         break;
                     case 2:
+
+                        /*for (let f = 0; f < 7; f++) {
+                            for (let c = 0; c < 12; c++) {
+                                this.casilla[f][c] = 0;
+                            }
+                        }*/
                         //Verduras
                         this.casilla[0][fil-5] = 1;
                         this.casilla[1][fil-5] = 1;
@@ -84,6 +96,11 @@ class Mapa {
                         break;
 
                     case 3:
+                        /*for (let fi = 0; fi < 7; fi++) {
+                            for (let co = 0; co < 12; co++) {
+                                this.casilla[fi][co] = 0;
+                            }
+                        }*/
                         //Sushis
                         this.casilla[0][col] = 1;
                         this.casilla[6][col] = 1;

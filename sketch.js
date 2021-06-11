@@ -103,7 +103,7 @@ function preload() {
 }
 function setup() {
   createCanvas(1200, 700);
-  pantalla = 7;
+  pantalla = 2;
   //Plano
   plano = new Mapa();
   plano.crearCasillas();
@@ -226,7 +226,12 @@ function draw() {
       break;
 
     case 3: //Acertijo #1
-    background(0);
+   
+    imageMode(CORNER);
+    image(imgFondoAcertijo1, 0, 0);
+
+    //Metodo Acertijo
+    acertijo1.pintar();
     break;
 
     case 4: //Cocina
@@ -263,7 +268,6 @@ function draw() {
     case 5: //Acertijo #2
     imageMode(CORNER);
     image(imgFondoAcertijo2, 0, 0);
-
     //Metodo Acertijo
     acertijo2.pintar();
       break;
@@ -334,6 +338,9 @@ function draw() {
     //Personaje recoge premios
     recolectarPremios(premiosArrozNivel4, personaje);
     recolectarPremios(premiosSalmonNivel4, personaje);
+
+    //Acertijos
+    pasarAcertijo(3);
       break;
     case 9: //Pantalla de trifundo
     background(255, 0, 255);
@@ -448,27 +455,32 @@ function recolectarPremios(arregloPremios, personaje) {
   }
 }
 
-//Metodo para pasar a los acertijos:
+//Metodo para pasar a los acertijos y salidas:
 
 function pasarAcertijo(nivel) {
 
   switch (nivel) {
 
     case 0:
-      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) && pantalla === 2) {
+      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol()) === 2) && pantalla === 2) {
         pantalla = 3
       }
       break;
     case 1:
-      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) && pantalla === 4)  {
+      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol()) === 2) && pantalla === 4)  {
         pantalla = 5
+
       }
     break;
     case 2:
-      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2) && pantalla === 6) {
+      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol()) === 2) && pantalla === 6) {
         pantalla = 7
       }
     break;
+    case 3:
+      if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol()) === 2) && pantalla === 8) {
+        pantalla = 9
+      }
 
 
 
@@ -533,19 +545,23 @@ function keyPressed() {
 function mousePressed(){
   
   //Botones de acertijos
-
   //Acertijo 1
   if(acertijo1.validarClic(mouseX, mouseY)){
     pantalla = 4;
+    personaje.setPfil(0);
+    personaje.setPcol(5);
   }
 
   if(pantalla === 4){
     acertijo1.setRevelar(false);
+    
   }
 
   //Acertijo 2
   if(acertijo2.validarClic(mouseX, mouseY)){
     pantalla = 6;
+    personaje.setPfil(3);
+    personaje.setPcol(0);
   }
 
   if(pantalla === 6){
@@ -555,11 +571,40 @@ function mousePressed(){
   //Acertijo 3
   if(acertijo3.validarClic(mouseX, mouseY)){
     pantalla = 8;
+    personaje.setPfil(3);
+    personaje.setPcol(0);
   }
 
   if(pantalla === 8){
     acertijo3.setRevelar(false);
   }
   
+
+}
+
+function mouseMoved(){
+
+  //Acertijo 1
+
+  if(acertijo1.validarClic(mouseX, mouseY)){
+    acertijo1.validarClic(mouseX, mouseY);
+  }else{
+    acertijo1.setRevelar(false);
+  }
+
+  //Acertijo 2
+  if(acertijo2.validarClic(mouseX, mouseY)){
+    acertijo2.validarClic(mouseX, mouseY);
+  }else{
+    acertijo2.setRevelar(false);
+  }
+
+  //Acertijo 3
+
+  if(acertijo3.validarClic(mouseX, mouseY)){
+    acertijo3.validarClic(mouseX, mouseY);
+  }else{
+    acertijo3.setRevelar(false);
+  }
 
 }
