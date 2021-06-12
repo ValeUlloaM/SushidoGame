@@ -64,6 +64,10 @@ let imgPergamino;
 let imgFondoAcertijo1;
 let imgFondoAcertijo2;
 let imgFondoAcertijo3;
+//Fondo Victoria
+let imgVictoria;
+//Fondo Game Over
+let imgGameOver;
 
 function preload() {
   //Imagenes de fondo
@@ -100,10 +104,14 @@ function preload() {
   imgFondoAcertijo1 = loadImage("data/FondoAcertijo1.png");
   imgFondoAcertijo2 = loadImage("data/FondoAcertijo2.png");
   imgFondoAcertijo3 = loadImage("data/FondoAcertijo3.png");
+  //Fondo Victoria
+  imgVictoria = loadImage("data/Victoria.png");
+  //Fondo Game Over
+  imgGameOver = loadImage("data/GameOver.png");
 }
 function setup() {
   createCanvas(1200, 700);
-  pantalla = 2;
+  pantalla = 0;
   //Plano
   plano = new Mapa();
   plano.crearCasillas();
@@ -343,9 +351,12 @@ function draw() {
     pasarAcertijo(3);
       break;
     case 9: //Pantalla de trifundo
-    background(255, 0, 255);
+    imageMode(CORNER);
+    image(imgVictoria, 0, 0)
       break;
     case 10://Pantalla de gameover
+    imageMode(CORNER);
+    image(imgGameOver, 0, 0)
       break;
     
 
@@ -481,11 +492,7 @@ function pasarAcertijo(nivel) {
       if ((plano.getLocacion(personaje.getPfil(), personaje.getPcol()) === 2) && pantalla === 8) {
         pantalla = 9
       }
-
-
-
   }
-
 }
 
 //Metodos de interaccion
@@ -493,6 +500,8 @@ function keyPressed() {
 
   //Movimiento del personaje
   switch (key) {
+
+    case 'A':
     case 'a': //Izquierda
       if (personaje.getPcol() - 1 >= 0) {
         if (plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 0 || plano.getLocacion(personaje.getPfil(), personaje.getPcol() - 1) === 2 ) {
@@ -501,6 +510,8 @@ function keyPressed() {
         }
       }
       break;
+
+    case 'D':
     case 'd': //Derecha
       if (personaje.getPcol() + 1 < 12) {
         if (plano.getLocacion(personaje.getPfil(), personaje.getPcol() + 1) === 0 || plano.getLocacion(personaje.getPfil(), personaje.getPcol() + 1) === 2 ) {
@@ -509,6 +520,8 @@ function keyPressed() {
         }
       }
       break;
+
+    case 'S':
     case 's': //Abajo
       if (personaje.getPfil() + 1 < 7) {
         if (plano.getLocacion(personaje.getPfil() + 1, personaje.getPcol()) === 0 || plano.getLocacion(personaje.getPfil() + 1, personaje.getPcol()) === 2 ) {
@@ -518,27 +531,28 @@ function keyPressed() {
       }
 
       break;
+
+    case 'W':
     case 'w': //Arriba
       if (personaje.getPfil() - 1 >= 0) {
         if (plano.getLocacion(personaje.getPfil() - 1, personaje.getPcol()) === 0 || plano.getLocacion(personaje.getPfil() - 1, personaje.getPcol()) === 2) {
           personaje.setPfil(personaje.getPfil() - 1);
           personaje.setOrientacion(1);
-
         }
       }
 
       break;
 
+    case 'O':
     case 'o':
       personaje.disparar('o');
 
-
       break;
+
+    case 'P':
     case 'p':
       personaje.disparar('p');
       break;
-
-
   }
 }
 
@@ -554,7 +568,6 @@ function mousePressed(){
 
   if(pantalla === 4){
     acertijo1.setRevelar(false);
-    
   }
 
   //Acertijo 2
@@ -578,8 +591,48 @@ function mousePressed(){
   if(pantalla === 8){
     acertijo3.setRevelar(false);
   }
-  
 
+//BOTONES
+
+switch (pantalla) {
+  case 0: //Pantalla de inicio
+  
+  //Botón de empezar juego
+  if(mouseX > 493 && mouseX < 706 &&
+    mouseY > 579 && mouseY < 639){
+      pantalla = 1;
+    }
+
+  //Botón de instrucciones
+  if(mouseX > 493 && mouseX < 706 &&
+    mouseY > 511 && mouseY < 571){
+      pantalla = 2;
+    }
+    break;
+
+  case 1: //Pantalla de instrucciones
+  
+  //Botón de iniciar juego desde las instrucciones
+  if(mouseX > 460 && mouseX < 739 &&
+    mouseY > 544 && mouseY < 623){
+      pantalla = 2;
+    }
+    break;
+
+  case 9: //Pantalla de triunfo/victoria
+  if(mouseX > 863 && mouseX < 1162 &&
+    mouseY > 498 && mouseY < 582){
+      location.reload();
+    }
+    break;
+
+  case 10: //Pantalla de Game Over
+  if(mouseX > 450 && mouseX < 739 &&
+    mouseY > 498 && mouseY < 623){
+    location.reload();
+    }
+    break;
+  }
 }
 
 function mouseMoved(){
