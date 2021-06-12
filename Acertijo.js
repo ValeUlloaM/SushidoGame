@@ -20,7 +20,9 @@ class Acertijo{
     if ((dist(mx, my, this.acertijoX, this.acertijoY)) < this.tam / 2) {
         this.revelar = true;
         return true;
+        
     }
+  
     return false;
 }
 
