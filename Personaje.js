@@ -95,7 +95,7 @@ class Personaje {
         this.xPos = nuevoXpos;
     }
 
-    setYpos(newYpos) {
+    setYpos(nuevoYpos) {
         this.yPos = nuevoYpos;
     }
 

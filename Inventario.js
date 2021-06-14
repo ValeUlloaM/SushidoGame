@@ -16,6 +16,7 @@ class Inventario {
 		fill(26, 26, 36);
 		textSize(20);
         textAlign(CENTER);
+        strokeWeight(1);
 		text(" " + this.arrozAtrapados.length, 980, 57);
 		text(" " + this.salmonAtrapados.length, 1081, 57);
     }
